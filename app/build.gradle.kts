@@ -34,7 +34,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding = rootProject.extra["viewBindingEnabled"] as Boolean
     }
 }
 
