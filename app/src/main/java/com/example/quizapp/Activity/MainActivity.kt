@@ -1,13 +1,11 @@
-package com.example.quizapp
+package com.example.quizapp.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Window
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.quizapp.R
 import com.example.quizapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,5 +18,14 @@ class MainActivity : AppCompatActivity() {
 
         val window: Window = this@MainActivity.window
         window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.grey)
+
+        binding.apply {
+            bottomMenu.setItemSelected(R.id.home)
+            bottomMenu.setOnItemSelectedListener {
+                if (it == R.id.board) {
+                    startActivity(Intent(this@MainActivity, LeaderActivity::class.java))
+                }
+            }
+        }
     }
 }

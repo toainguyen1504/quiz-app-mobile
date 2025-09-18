@@ -46,7 +46,7 @@
         app:srcCompat="@drawable/garnet" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/scoreTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
