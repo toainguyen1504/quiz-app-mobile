@@ -2,21 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
     tools:context=".Activity.ScoreActivity">
 
     <ImageView
-        android:id="@+id/pic"
+        android:id="@+id/picCup"
         android:layout_width="300dp"
         android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/trophy" />
+        app:srcCompat="@drawable/trophy" />
 
     <TextView
         android:id="@+id/textView5"
@@ -26,9 +25,9 @@
         android:textColor="@color/navy_blue"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/pic"
-        app:layout_constraintStart_toStartOf="@+id/pic"
-        app:layout_constraintTop_toBottomOf="@+id/pic" />
+        app:layout_constraintEnd_toEndOf="@+id/picCup"
+        app:layout_constraintStart_toStartOf="@+id/picCup"
+        app:layout_constraintTop_toBottomOf="@+id/picCup" />
 
     <TextView
         android:id="@+id/scoreTxt"
