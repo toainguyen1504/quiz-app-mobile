@@ -4,15 +4,15 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class QuestionModel(val id: Int,
-        val question: String?,
-        val answer_1: String?,
-        val answer_2: String?,
-        val answer_3: String?,
-        val answer_4: String?,
-        val correctAnswer: String?,
-        val score: Int,
-        val picPath: String?,
-        val clickedAnswer: String?
+                         val question: String?,
+                         val answer_1: String?,
+                         val answer_2: String?,
+                         val answer_3: String?,
+                         val answer_4: String?,
+                         val correctAnswer: String?,
+                         val score: Int,
+                         val picPath: String?,
+                         var clickedAnswer: String?
     ): Parcelable{
         constructor(parcel: Parcel) : this(
             parcel.readInt(),
