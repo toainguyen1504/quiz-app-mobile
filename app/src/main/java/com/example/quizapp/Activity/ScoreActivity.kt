@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.quizapp.R
 import com.example.quizapp.databinding.ActivityScoreBinding
 
+// ScoreActivity nhận điểm từ QuestionActivity, hiển thị nó, và cho phép user quay về MainActivity
 class ScoreActivity : AppCompatActivity() {
 
     var score: Int = 0
@@ -19,6 +20,7 @@ class ScoreActivity : AppCompatActivity() {
         binding = ActivityScoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Intent dùng để truyền dữ liệu giữa Activity.
         score = intent.getIntExtra("Score", 0)
 
         binding.apply {

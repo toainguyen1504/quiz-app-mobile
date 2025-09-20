@@ -15,9 +15,12 @@ import com.example.quizapp.Domain.UserModel
 import com.example.quizapp.R
 import com.example.quizapp.databinding.ActivityLeaderBinding
 
+// hiển thị bảng xếp hạng (leaderboard)
 class LeaderActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLeaderBinding
+
+    //    biến chỉ được khởi tạo khi nó được dùng lần đầu tiên.
     private val leaderAdapter by lazy { LeaderAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +29,7 @@ class LeaderActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val window: Window = this@LeaderActivity.window
+        // giúp lấy màu từ colors.xml
         window.statusBarColor = ContextCompat.getColor(this@LeaderActivity, R.color.grey)
 
         binding.apply {
@@ -36,10 +40,13 @@ class LeaderActivity : AppCompatActivity() {
             titleTop2Txt.text = loadData().get(1).name
             titleTop3Txt.text = loadData().get(2).name
 
+            // Tìm ảnh trong drawable bằng tên string
+            // trick thường dùng khi dữ liệu ảnh đến từ server (chỉ gửi tên file)
             val drawableResourceId1:Int = binding.root.resources.getIdentifier(
                 loadData().get(0).pic, "drawable", binding.root.context.packageName
             )
 
+            // Glide dùng để load ảnh từ resource (drawable) hoặc URL (API)
             Glide.with(root.context)
                 .load(drawableResourceId1)
                 .into(pic1)
@@ -60,28 +67,38 @@ class LeaderActivity : AppCompatActivity() {
                 .load(drawableResourceId3)
                 .into(pic3)
 
+            // chọn sẵn 1 tab
             bottomMenu.setItemSelected(R.id.board)
 
+            // Khi nhấn "home", app mở MainActivity
             bottomMenu.setOnItemSelectedListener {
                 if (it == R.id.home) {
+                    // Intent = để chuyển sang màn hình khác (Activity)
                     startActivity(Intent(this@LeaderActivity, MainActivity::class.java))
                 }
             }
 
+            // MutableList = danh sách có thể thêm, xoá phần tử
             var list: MutableList<UserModel> = loadData()
+
+            // lấy danh sách users rồi xoá 3 người đầu (để hiển thị top 3 riêng)
             list.removeAt(0)
             list.removeAt(1)
             list.removeAt(2)
+
             leaderAdapter.differ.submitList(list)
 
             leaderView.apply {
+                // sắp xếp item theo chiều dọc
                 layoutManager = LinearLayoutManager(this@LeaderActivity)
+
+                // gắn dữ liệu vào UI thông qua LeaderAdapter
                 adapter = leaderAdapter
             }
         }
     }
 
-    //You can get below list from your API service, this is a example list
+    //You can get below list from your API service, this is a example list (mock data)
     private fun loadData(): MutableList<UserModel> {
         val users: MutableList<UserModel> = mutableListOf()
         users.add(UserModel(1, "Sophia", "person1", 4850))

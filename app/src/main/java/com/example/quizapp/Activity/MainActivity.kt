@@ -9,11 +9,16 @@ import com.example.quizapp.Domain.QuestionModel
 import com.example.quizapp.R
 import com.example.quizapp.databinding.ActivityMainBinding
 
+// màn hình chính -> chọn chơi quiz -> truyền danh sách câu hỏi sang QuestionActivity
+// Cần học thêm về ViewModel + LiveData/StateFlow để quản lý dữ liệu tách biệt với UI (MVVM pattern)
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // inflate(layoutInflater) sẽ biến nó thành cây View thực sự (Button, TextView,…)
+        // để có thể setContentView(binding.root)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -21,26 +26,36 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.grey)
 
         binding.apply {
+
+            // setItemSelected = set tab mặc định
             bottomMenu.setItemSelected(R.id.home)
+
+            // xử lý khi user nhấn vào item trong menu
             bottomMenu.setOnItemSelectedListener {
                 if (it == R.id.board) {
+                    // Intent(...) = dùng để chuyển sang Activity khác
                     startActivity(Intent(this@MainActivity, LeaderActivity::class.java))
                 }
             }
 
             singleBtn.setOnClickListener {
+                // Intent = mở QuestionActivity
                 val intent = Intent(this@MainActivity, QuestionActivity::class.java)
+
+                // putParcelableArrayListExtra = truyền danh sách object (QuestionModel) sang Activity khác
                 intent.putParcelableArrayListExtra("list", ArrayList(questionList()))
                 startActivity(intent)
             }
         }
     }
 
-//    This is a list of questions and this for example. You can get question from your API service.
+//    This is a list of questions and this for example. Should get question from your API service.
     private fun questionList(): MutableList<QuestionModel> {
+        // MutableList = có thể thêm, xoá, sửa phần tử
         val question: MutableList<QuestionModel> = mutableListOf()
 
         question.add(
+            // khởi tạo một object trong Kotlin
             QuestionModel(
                 1,
                 "Which planet is the largest planet in the solar system?",

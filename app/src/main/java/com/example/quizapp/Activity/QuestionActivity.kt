@@ -14,6 +14,7 @@ import com.example.quizapp.Domain.QuestionModel
 import com.example.quizapp.R
 import com.example.quizapp.databinding.ActivityQuestionBinding
 
+// hiển thị câu hỏi, nhận câu trả lời -> tính điểm. Khi xong -> truyền điểm sang ScoreActivity
 class QuestionActivity : AppCompatActivity(), QuestionAdapter.score {
     private lateinit var binding: ActivityQuestionBinding
     var position: Int = 0
@@ -29,6 +30,9 @@ class QuestionActivity : AppCompatActivity(), QuestionAdapter.score {
         window.statusBarColor = ContextCompat.getColor(this@QuestionActivity, R.color.grey)
 
 
+        // intent: dùng để truyền dữ liệu giữa các Activity
+        // !!: ép buộc không null, nguy hiểm -> có thể crash - ưu tiên ?.let { ... } thay vì !!
+        // Parcelable: cách Android đóng gói object (ở đây là QuestionModel) để gửi qua Intent
         receivedList = intent.getParcelableArrayListExtra<QuestionModel>("list")!!.toMutableList()
         binding.apply {
             backBtn.setOnClickListener {
@@ -56,11 +60,16 @@ class QuestionActivity : AppCompatActivity(), QuestionAdapter.score {
                     val intent = Intent(this@QuestionActivity, ScoreActivity::class.java)
                     intent.putExtra("Score", allScore)
                     startActivity(intent)
+
+                    // đóng Activity hiện tại, quay về trước đó
                     finish()
                     return@setOnClickListener
                 }
 
+                // update UI dựa trên biến position
                 position++
+
+                // Thay đổi số tiến trình khi qua câu hỏi mới
                 progressBar.progress = progressBar.progress + 1
                 questionNumberTxt.text = "Question " + progressBar.progress + "/10"
                 questionTxt.text = receivedList[position].question
@@ -125,12 +134,16 @@ class QuestionActivity : AppCompatActivity(), QuestionAdapter.score {
         }
 
         questionAdapter.differ.submitList(users)
+
+        // RecyclerView = Adapter (cung cấp dữ liệu) + LayoutManager (cách hiển thị)
         binding.questionList.apply {
             layoutManager = LinearLayoutManager(this@QuestionActivity)
             adapter = questionAdapter
         }
     }
 
+    // Interface score trong Adapter → để Activity nhận dữ liệu từ Adapter
+    // Dùng callback này để cộng điểm (allScore).
     override fun amount(number: Int, clickedAnswer: String) {
         allScore += number
         receivedList[position].clickedAnswer = clickedAnswer
